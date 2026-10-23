@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ruta VIH · herramienta de apoyo y práctica con casos</title>
+<link rel="icon" href="data:,"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbfcfb;--tx:#101614;--mu:#55625d;--bd:#d9e1dd;--cd:#fff;--ac:#0b5d57;--ac2:#e3f1ee;--ok:#1b6e3a;--wa:#8a5a00;--ba:#a3261f;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1211;--tx:#eef3f1;--mu:#9fb0aa;--bd:#2a3532;--cd:#131b19;--ac:#5cc7bd;--ac2:#16302d;--ok:#6fd08f;--wa:#f0b955;--ba:#ff8c84;color-scheme:dark}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 "Instrument Sans",system-ui,sans-serif}
+a{color:var(--ac)}:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.w{max-width:1040px;margin:auto;padding:0 20px}section{padding:56px 0;border-top:1px solid var(--bd)}
+h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.1;margin:0 0 14px;letter-spacing:-.02em}h2{font-size:1.7rem;margin:0 0 6px}h3{margin:18px 0 6px}
+.sub{color:var(--mu);max-width:62ch}.top{background:var(--ac2);font-size:.85rem;text-align:center;padding:6px 12px}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd)}nav .w{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:10px 20px}
+nav b{margin-right:auto}nav a{text-decoration:none;color:var(--tx);font-size:.92rem}
+.btn{font:inherit;font-weight:600;border:1px solid var(--ac);background:var(--ac);color:var(--bg);padding:9px 16px;border-radius:10px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.s{background:transparent;color:var(--ac)}.btn.d{border-color:var(--ba);color:var(--ba);background:transparent}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:18px;margin:14px 0}
+.g{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+label{display:block;font-weight:600;font-size:.9rem;margin:8px 0 3px}input,select,textarea{font:inherit;width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)}
+input[type=checkbox]{width:auto;margin-right:8px}.ck{font-weight:400;display:flex;align-items:flex-start}
+.tr{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px;color:var(--mu);font-size:.92rem}.tr span::before{content:"✔ ";color:var(--ac)}
+.al{border-left:5px solid;padding:10px 14px;border-radius:8px;background:var(--ac2);margin:8px 0}.al.ok{border-color:var(--ok)}.al.warn{border-color:var(--wa)}.al.bad{border-color:var(--ba)}
+.ok .i,.sm.ok{color:var(--ok)}.warn .i,.sm.warn{color:var(--wa)}.bad .i,.sm.bad{color:var(--ba)}.sm{font-weight:600;white-space:nowrap}
+.err{color:var(--ba);font-size:.88rem;min-height:1.2em}small,.ev{color:var(--mu)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--bd);vertical-align:top}.sc{overflow-x:auto}
+details{border:1px solid var(--bd);border-radius:10px;margin:8px 0;padding:4px 14px;background:var(--cd)}summary{cursor:pointer;font-weight:600;padding:8px 0}
+.bar{height:16px;background:var(--bd);border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac)}
+.sticky{border:2px solid var(--wa)}footer{padding:30px 0;color:var(--mu);font-size:.85rem;border-top:1px solid var(--bd)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.bar2{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.op{display:block;width:100%;text-align:left;font:inherit;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:11px 14px;margin:8px 0;cursor:pointer}
+.op:hover:not(:disabled){border-color:var(--ac)}.op.ok{border:2px solid var(--ok)}.op.no{border:2px solid var(--ba)}.op:disabled{cursor:default;color:var(--tx);opacity:1}
+.dato{border-left:4px solid var(--ac);background:var(--ac2);padding:8px 12px;border-radius:8px;margin:8px 0}
+.fb{border-left:5px solid;padding:10px 14px;border-radius:8px;background:var(--ac2);margin:10px 0}.fb.ok{border-color:var(--ok)}.fb.no{border-color:var(--ba)}.no .i{color:var(--ba)}
+.pb{height:14px;background:var(--bd);border-radius:7px;overflow:hidden}.pb i{display:block;height:100%;background:var(--ac)}.row{display:grid;grid-template-columns:minmax(120px,1fr) 2fr 60px;gap:10px;align-items:center;margin:6px 0}
+svg{width:100%;height:auto}svg rect{fill:var(--cd);stroke:var(--bd);stroke-width:1.5}svg text{fill:var(--tx);font:13px "Instrument Sans",system-ui,sans-serif;text-anchor:middle}svg line{stroke:var(--mu);stroke-width:1.5}
+svg .on rect{fill:var(--ac2);stroke:var(--ac);stroke-width:3}svg .sel rect{stroke:var(--tx);stroke-width:3}.nd{cursor:pointer}.nd:hover rect{stroke:var(--ac)}.nd:focus-visible{outline:none}.nd:focus-visible rect{stroke:var(--ac);stroke-width:4}
+.tabs{display:flex;gap:8px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}.tabs button{font:inherit;font-weight:600;background:transparent;color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:8px 16px;cursor:pointer}.tabs button[aria-selected=true]{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+</style></head><body>
+<div class="top" role="note">Herramienta de apoyo; no sustituye el juicio clínico ni la norma local.</div>
+<nav aria-label="Principal"><div class="w"><b>Ruta VIH</b><a href="#m1">Diagnóstico</a><a href="#m2">Pacientes</a><a href="#m3">Seguimiento</a><a href="#fuentes">Guía y fuentes</a><a href="#practica">Práctica con casos</a><button class="btn" id="nuevo">Nuevo paciente</button></div></nav>
+<div class="w tabs" role="tablist" aria-label="Apartados"><button role="tab" data-v="tool" aria-selected="true" aria-controls="v-tool">Herramienta de apoyo</button><button role="tab" data-v="prac" aria-selected="false" aria-controls="v-prac">Práctica con casos clínicos</button></div>
+<main>
+<div id="v-tool" role="tabpanel">
+<section style="border:0"><div class="w"><h1>Del primer resultado a la supresión viral.</h1>
+<p class="sub">Algoritmo diagnóstico por pasos, registro por folio, seguimiento calendarizado, diagrama interactivo y práctica con casos clínicos para personas adultas con VIH.</p>
+<p><a class="btn" href="#m1">Iniciar tamizaje</a> <a class="btn s" href="#guia">Ver protocolo</a> <a class="btn s" href="#practica">Practicar con casos</a></p>
+<div class="tr"><span>Sin envío de datos</span><span>Basado en guías citadas</span><span>Funciona sin conexión</span></div>
+<div class="al warn" role="note"><span class="i">▲</span> <b>Privacidad:</b> No ingrese nombres ni datos que identifiquen directamente al paciente; use un folio o código. Los datos permanecen solo en este navegador y no están cifrados. Al practicar, use folios ficticios.</div>
+<div class="al"><span class="i">ℹ</span> Alcance: personas adultas. No aplica a lactantes ni a niños con exposición perinatal (requieren ARN-NAAT) [HIVMA Tabla 4].</div></div></section>
+
+<section id="m1"><div class="w"><h2>Módulo 1 · Algoritmo diagnóstico</h2>
+<p class="sub">Responda en orden; el resultado y el diagrama se actualizan al instante. El asistente no guarda datos; para guardar un caso use el módulo 2.</p>
+<div class="card"><h3 style="margin-top:0">Contexto del paciente</h3><div class="g">
+<div><label for="x-exp">Fecha de exposición de riesgo</label><input type="date" id="x-exp"></div>
+<div><label for="x-art">Uso de antirretrovirales</label><select id="x-art"><option value="n">Ninguno</option><option value="prep">PrEP oral (≤3 meses)</option><option value="cab">Cabotegravir inyectable (≤12 meses)</option><option value="pep">PEP</option><option value="tar">TAR iniciado muy temprano</option></select></div></div>
+<fieldset style="border:0;padding:0"><legend><b>Síntomas y hallazgos</b> (síndrome retroviral agudo)</legend><div class="g" id="x-sint"></div></fieldset>
+<label class="ck"><input type="checkbox" id="x-emb">Embarazo</label><label class="ck"><input type="checkbox" id="x-io">Infección oportunista activa</label><label class="ck"><input type="checkbox" id="x-wb">La norma local exige Western blot</label>
+<div id="x-aud" class="al" aria-live="polite"></div></div>
+<ol class="card" style="list-style:none;padding-left:18px" aria-label="Pasos del algoritmo">
+<li id="s1" aria-current="step"><b>Paso 1 · Prueba inicial (tamizaje)</b>
+<label for="x-tipo">Tipo de prueba</label><select id="x-tipo"><option value="lab">Laboratorio: Ag/Ac 4.ª generación (instrumentado)</option><option value="pocs">POC Ag/Ac (Determine) en suero o plasma</option><option value="poc">POC Ag/Ac en sangre de punción digital</option><option value="ab">Prueba rápida de anticuerpos (POC)</option><option value="auto">Autoprueba (oral o sangre)</option></select>
+<label for="x-p1">Resultado</label><select id="x-p1"><option value="">Seleccione…</option><option value="nr">No reactivo</option><option value="r">Reactivo</option></select>
+<div id="nw" hidden><label for="x-nat">ARN-NAAT en paralelo (si hay sospecha de infección aguda)</label><select id="x-nat"><option value="">No solicitado / sin resultado</option><option value="alto">Detectado: NAAT diagnóstico positivo o ≥200 copias/mL</option><option value="bajo">Detectado, cuantitativo &lt;200 copias/mL</option><option value="nd">No detectado</option></select></div></li>
+<li id="s2" hidden><label for="x-p2">Paso 2 · Ensayo diferenciador de anticuerpos VIH-1/VIH-2</label><select id="x-p2"><option value="">Seleccione…</option><option value="v1">VIH-1 Ac detectados</option><option value="v2">VIH-2 Ac detectados</option><option value="amb">Ac detectados sin tipificar (ambos +)</option><option value="nr">No reactivo</option><option value="ind">Indeterminado</option></select></li>
+<li id="s3" hidden><label for="x-p3">Paso 3 · ARN-NAAT</label><select id="x-p3"><option value="">Seleccione…</option><option value="det">ARN VIH-1 detectado (NAAT diagnóstico, o cuantitativo ≥200 copias/mL)</option><option value="det2">ARN VIH-2 detectado (ensayo VIH-1/2)</option><option value="det12">ARN VIH-1 y VIH-2 detectados</option><option value="bajo">ARN cuantitativo detectado &lt;200 copias/mL</option><option value="nd">ARN VIH-1 no detectado</option><option value="nd12">ARN VIH-1/2 no detectado</option></select></li></ol>
+<div id="x-res" aria-live="polite"></div><h3>Diagrama interactivo</h3><p class="sub">Se ilumina la ruta según los resultados que seleccione; elija un recuadro para ver su explicación.</p><div id="dg1"></div>
+<div class="card"><h3 style="margin-top:0">Calculadora de ventana diagnóstica</h3><div class="g">
+<div><label for="w-t">Prueba usada</label><select id="w-t"><option value="0">Anticuerpos / autoprueba (23-90 d)</option><option value="1">Ag/Ac punción digital (18-90 d)</option><option value="2" selected>Ag/Ac de laboratorio (18-45 d)</option><option value="3">NAAT (10-33 d)</option></select></div>
+<div><label for="w-e">Fecha de exposición</label><input type="date" id="w-e"></div></div><div id="w-r" aria-live="polite"></div></div></div></section>
+
+
+
+
+
+<section id="m2"><div class="w"><h2>Módulo 2 · Registro y consejería</h2>
+<p class="sub">Un registro por folio. Se guarda en este navegador.</p>
+<form id="pf" class="card" novalidate><div class="g">
+<div><label for="f-folio">Folio (sin nombre)</label><input id="f-folio" maxlength="20" autocomplete="off"></div>
+<div><label for="f-edad">Edad (años)</label><input id="f-edad" type="number"></div>
+<div><label for="f-exp">Fecha de exposición o inicio de síntomas</label><input id="f-exp" type="date"></div>
+<div><label for="f-p1">Paso 1 (Ag/Ac)</label><select id="f-p1"><option value="">—</option><option value="nr">No reactivo</option><option value="r">Reactivo</option></select></div>
+<div><label for="f-p2">Paso 2 (diferenciador)</label><select id="f-p2"><option value="">—</option><option value="v1">VIH-1</option><option value="v2">VIH-2</option><option value="amb">Sin tipificar</option><option value="nr">No reactivo</option><option value="ind">Indeterminado</option></select></div>
+<div><label for="f-p3">Paso 3 (ARN)</label><select id="f-p3"><option value="">—</option><option value="det">Detectado</option><option value="nd">No detectado</option></select></div>
+<div><label for="f-art">Uso de PrEP/PEP/TAR previo</label><select id="f-art"><option value="n">Ninguno</option><option value="prep">PrEP</option><option value="pep">PEP</option><option value="tar">TAR</option></select></div>
+<div><label for="f-dx">Fecha de diagnóstico confirmado</label><input id="f-dx" type="date"></div>
+<div><label for="f-tar">Fecha de inicio de TAR</label><input id="f-tar" type="date"></div>
+<div><label for="f-cita">Próxima cita agendada</label><input id="f-cita" type="date"></div>
+<div><label for="f-sint">Síntomas (texto breve)</label><input id="f-sint" maxlength="120"></div></div>
+<label class="ck"><input type="checkbox" id="f-emb">Embarazo</label><label class="ck"><input type="checkbox" id="f-io">Infección oportunista activa</label>
+<fieldset style="border:0;padding:0"><legend><b>Checklist de consejería</b></legend><div id="f-ck"></div></fieldset>
+<p class="err" id="f-err" role="alert"></p><button class="btn" type="submit">Guardar paciente</button> <button class="btn s" type="reset" id="f-rs">Limpiar</button></form>
+<div class="al"><span class="i">ℹ</span> Orden médica y consentimiento informado para pruebas de laboratorio: según Medina (2021) son obligatorios en el marco mexicano; la consejería previa y posterior no es obligatoria en ese marco. Medina (2021) indica que el lineamiento mexicano (InDRE 2017) puede exigir Western blot; verificar la norma vigente. El Western blot nunca debe usarse para descartar una prueba de 4.ª generación reactiva.</div></div></section>
+
+<section id="m3"><div class="w"><h2>Módulo 3 · Vinculación y seguimiento</h2>
+<p class="sub">Semáforo, calendario sugerido y alertas calculados con los datos de este navegador.</p>
+<div class="g" id="kp"></div>
+<div class="card"><div class="g"><div><label for="q">Buscar folio</label><input id="q" type="search"></div><div><label for="fl">Filtrar</label><select id="fl"><option value="">Todos</option></select></div></div>
+<div class="sc"><table><caption class="ev" style="text-align:left">Pacientes</caption><thead><tr><th>Folio</th><th>Estado</th><th>Semáforo</th><th>Próximo control</th><th></th></tr></thead><tbody id="tb"></tbody></table></div></div>
+<div id="det"></div>
+<div class="card"><h3 style="margin-top:0">Datos</h3><button class="btn s" id="ej">Exportar JSON</button> <button class="btn s" id="ec">Exportar CSV</button> <label class="btn s" style="display:inline-block;margin:0">Importar JSON<input type="file" id="ij" accept="application/json" hidden></label> <button class="btn d" id="bo">Borrar todos los datos</button> <p class="err" id="d-msg" role="status"></p></div></div></section>
+<section id="m4"><div class="w"><h2>Módulo 4 · Esquemas iniciales de TAR (solo lectura)</h2><div class="al warn"><span class="i">▲</span> Referencia informativa. No es una prescripción ni sustituye la guía nacional vigente. Datos de 2021; verificar su vigencia antes de usar.</div><label for="m4s">Origen del diagnóstico</label><select id="m4s"><option value="w">Resultado del asistente (módulo 1)</option></select><div id="m4c"></div></div></section>
+
+<section id="guia"><div class="w"><h2>Guía del protocolo</h2>
+<details><summary>Ventanas diagnósticas</summary><div class="sc"><table><tr><th>Prueba</th><th>Ventana</th></tr><tr><td>Anticuerpos solos/autopruebas</td><td>23-90 d [NYSDOH Tabla 2 p.8]</td></tr><tr><td>Ag/Ac POC (punción digital)</td><td>18-90 d</td></tr><tr><td>Ag/Ac de laboratorio</td><td>18-45 d</td></tr><tr><td>NAAT</td><td>10-33 d</td></tr></table></div>
+<p>4.ª generación: mediana ≈18 d (RIC 16-24), percentil 99 ≈44 d; RU, UE y CDC usan 45 d para repetir [WILLIAMS p.612]. ARN d6-8, p24 d13-20, IgM ~d20, IgG ~d30 tras establecerse la infección [SAAG p.2133]. Un negativo antes del fin de la ventana no descarta infección. Con PrEP/PEP/TAR las ventanas pueden alargarse.</p>
+<div class="al"><b>Nota de actualización:</b> [GARCÍA-2011, legado] indica 13-15 días para 4.ª generación; prevalecen NYSDOH y WILLIAMS.</div></details>
+<details><summary>Situaciones especiales</summary><ul>
+<li><b>PrEP/PEP/TAR muy temprano:</b> seroconversión retrasada y ARN bajo o indetectable [WILLIAMS pp.613-614]; con cabotegravir el retraso puede ser de 4-26 semanas frente a 1-12 con TDF/FTC [NYSDOH p.15]. Si se sospecha infección ≤3 meses tras PrEP oral o ≤12 meses tras cabotegravir: anticuerpos y ARN; verificar con repetición un ARN positivo con anticuerpos negativos [HIVMA Tabla 4]. Consultar a un experto.</li>
+<li><b>Segunda ventana diagnóstica</b> (4.ª gen. no reactiva hasta 28 d): resolver con NAAT [WILLIAMS p.614].</li>
+<li><b>Controladores de élite:</b> inmunoensayo reactivo con ARN persistentemente indetectable; ADN proviral y muestreo longitudinal [WILLIAMS p.614; SAAG p.2135].</li>
+<li><b>Falsos positivos:</b> error de muestra, vacunas, embarazo, autoinmunes, hipergammaglobulinemia, otras infecciones [NYSDOH Box 1 p.14].</li>
+<li><b>Falsos negativos:</b> eclipse, antes del fin de la ventana, inmunosupresión, hipogammaglobulinemia, complejos Ag-Ac [NYSDOH Box 1].</li>
+<li><b>VIH-2:</b> resultados indeterminados o cruzados; derivar a laboratorio de referencia [WILLIAMS p.614; NYSDOH].</li></ul></details>
+<details><summary>Repetición de pruebas</summary><ul><li>Evaluar el riesgo al menos una vez al año en personas sexualmente activas.</li><li>Riesgo continuo (varias parejas, ITS en el último año, drogas inyectadas, intercambio de sexo por dinero o drogas): ofrecer prueba cada 3-6 meses (A3) [NYSDOH p.13].</li><li>PrEP oral: cada 3 meses; inyectable: en cada inyección (A3).</li><li>Tras PEP (informativo): 45 días tras completar el curso (Reino Unido) o 3 meses (EE. UU.) [WILLIAMS p.617].</li></ul></details>
+<details><summary>Notas de actualización</summary><div class="al"><b>Supresión y falla:</b> [GARCÍA-2011, legado] usa &lt;50 copias/mL y “detectable a las 24 semanas”; prevalece HIVMA (&lt;200 copias/mL como umbral de no transmisión, I=I).</div><div class="al"><b>Ante discordancia entre pruebas:</b> priorizar la 4.ª generación de laboratorio y el ARN; hacer anamnesis de riesgo y examen físico dirigido (adenopatías) [MEDINA-2021].</div></details></div></section>
+
+<section id="fuentes"><div class="w"><h2>Fuentes y trazabilidad</h2>
+<div class="sc"><table><tr><th>Regla o módulo</th><th>Fuente</th><th>Página/tabla</th><th>Calificación</th></tr>
+<tr><td>Paso 1 Ag/Ac; ARN simultáneo si hay sospecha aguda</td><td>NYSDOH-2026</td><td>p.3, p.9</td><td>A2</td></tr>
+<tr><td>Reactivo = preliminar</td><td>NYSDOH-2026</td><td>p.9</td><td>A1</td></tr>
+<tr><td>Paso 2 diferenciador; TAR rápida si positivo</td><td>NYSDOH-2026; SAAG-2021</td><td>Fig.2 p.11; Fig.2 p.2134</td><td>A1</td></tr>
+<tr><td>Paso 3 ARN-NAAT; falso positivo</td><td>NYSDOH-2026</td><td>pp.15-16</td><td>A1 / A*</td></tr>
+<tr><td>ARN &lt;200 o ≥200 sin serología</td><td>NYSDOH-2026</td><td>Box 2 p.17</td><td>A2</td></tr>
+<tr><td>Cinco rápidas negativas en infección aguda</td><td>MEDINA-2021</td><td>Caso clínico</td><td>—</td></tr>
+<tr><td>Ventanas y alargamiento con PrEP/TAR</td><td>NYSDOH; WILLIAMS</td><td>Tabla 2 p.8; pp.612-614</td><td>—</td></tr>
+<tr><td>PrEP/cabotegravir: pruebas</td><td>HIVMA-2024</td><td>Tabla 4</td><td>—</td></tr>
+<tr><td>TAR rápida ≤7 d; máximo 30 d; cita ≤1 semana</td><td>HIVMA; NYSDOH; SAAG</td><td>Sec.1; p.4; p.2141</td><td>—</td></tr><tr><td>Monitoreo de ARN, CD4, química</td><td>HIVMA-2024</td><td>p.16; Tabla 5</td><td>—</td></tr><tr><td>Falla virológica y umbrales</td><td>HIVMA; SAAG</td><td>Tabla 4; p.2138</td><td>—</td></tr>
+
+
+<tr><td>Esquemas iniciales de TAR</td><td>SAAG-2021</td><td>p.2135; Tabla 2 p.2139</td><td>—</td></tr><tr><td>Diagrama interactivo y casos de práctica</td><td>NYSDOH; SAAG; MEDINA; WILLIAMS; HIVMA</td><td>Fig.2 p.11; Fig.2 p.2134; ver cada caso</td><td>A1-A3</td></tr></table></div>
+<ul><li><b>MEDINA-2021</b> Medina-De la Garza CE et al. Near misdiagnosis of acute HIV-infection with ELISA-Western Blot scheme. IDCases 2021;25:e01168.</li>
+<li><b>WILLIAMS-2023</b> Williams E et al. Laboratory diagnosis of HIV: a contemporary overview in the Australian context. Pathology 2023;55(5):610-620.</li>
+<li><b>NYSDOH-2026</b> NYSDOH AIDS Institute. HIV Testing. 4 de agosto de 2026 (solo contenido clínico).</li>
+<li><b>SAAG-2021</b> Saag MS. HIV Infection — Screening, Diagnosis, and Treatment. N Engl J Med 2021;384:2131-43.</li>
+<li><b>HIVMA-2024</b> Horberg M, Thompson M et al. Primary Care Guidance for Providers Who Care for Persons With HIV: 2024 Update. Clin Infect Dis 2024 (ciae479).</li>
+<li><b>GARCÍA-2011 (legado)</b> García F et al. Diagnóstico de laboratorio de la infección por el VIH… Enferm Infecc Microbiol Clin 2011;29(4):297-307.</li></ul>
+<p><small>Los casos de práctica son ficticios y su redacción es propia, basada en las reglas citadas. Documentos excluidos: Pediatric Clinics of North America (1991). Los criterios deben ser validados por el equipo clínico y de laboratorio con la normativa local vigente antes de su uso con pacientes.</small></p>
+<p><a class="btn" href="#m1">Iniciar tamizaje</a> <a class="btn s" href="#guia">Ver protocolo</a></p></div></section></div>
+<div id="v-prac" role="tabpanel" hidden><div class="w"><div class="al warn" role="note" style="margin-top:20px"><span class="i">▲</span> Uso educativo con casos simulados; no usar con pacientes reales ni para decisiones clínicas.</div></div><section id="practica" aria-labelledby="tp"><div class="w"><h2 id="tp">Práctica con casos clínicos</h2><p class="sub">Simula el protocolo: decide primero y compara después. Diez casos ficticios con retroalimentación, fuente y página.</p>
+<div class="bar2"><div><label for="md">Modo</label><br><select id="md"><option value="e">Estudio (con pistas)</option><option value="x">Examen (sin pistas)</option></select></div>
+<div><label for="cs">Caso</label><br><select id="cs"></select></div><button class="btn s" id="rf" style="margin-top:22px">Repasar fallados</button></div>
+<div class="card" id="cv" aria-live="polite"></div></div></section>
+<section id="diagrama" aria-labelledby="td"><div class="w"><h2 id="td">Diagrama interactivo del algoritmo</h2><p class="sub">Explore cada paso: use el ratón o el teclado (Tab y Enter) para ver su explicación.</p><div id="dg2"></div></div></section><section id="progreso" aria-labelledby="tg"><div class="w"><h2 id="tg">Progreso</h2><p class="sub">Se guarda solo en este navegador.</p><div id="pg"></div>
+<button class="btn s" id="ex">Descargar resumen</button> <button class="btn d" id="rs">Reiniciar progreso</button></div></section>
+</div></main>
+<footer><div class="w">Versión 3 (integrada) · 22 de octubre de 2026. Herramienta de apoyo; no sustituye el juicio clínico ni la norma local. Sin servidores, analítica ni recursos de terceros (salvo Google Fonts). Fuentes: MEDINA-2021, WILLIAMS-2023, NYSDOH-2026, SAAG-2021, HIVMA-2024, GARCÍA-2011 (legado).</div></footer>
+<script>(()=>{"use strict";
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const DAY=864e5,hoy=()=>{const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate())}; // fecha local (evita desfase por huso horario)
+const dd=s=>{const[a,b,c]=s.split("-");return new Date(+a,b-1,+c)};
+const diff=(s,t)=>Math.round((t-dd(s))/DAY),fm=d=>d.toLocaleDateString("es-MX"),addd=(s,n)=>{const d=dd(s);d.setDate(d.getDate()+n);return d};
+let W=null;
+const al=(c,i,t)=>`<div class="al ${c}"><span class="i">${i}</span> ${t}</div>`;
+// Síntomas y hallazgos [NYSDOH p.13; MEDINA-2021]
+const SL=["Fiebre","Faringitis","Exantema","Mialgias","Adenopatías","Diaforesis","Malestar","Leucopenia","Trombocitopenia","Transaminasas elevadas"];
+$("#x-sint").innerHTML=SL.map((s,i)=>`<label class="ck"><input type="checkbox" class="xs" value="${i}">${s}</label>`).join("");
+// Ventanas [NYSDOH Tabla 2 p.8]; POC Ag/Ac en suero se asimila a POC Ag/Ac (supuesto)
+const WV=[[23,90],[18,90],[18,45],[10,33]],TW={lab:2,pocs:1,poc:1,ab:0,auto:0};
+function aguda(){const e=$("#x-exp").value,d=e?diff(e,hoy()):null,s=$$(".xs:checked").length,ex=d!==null&&d>=10&&d<=33,r=ex||s>0; // [NYSDOH p.13: exposición a 10-33 días]
+ $("#x-aud").className="al"+(r?" warn":"");
+ $("#x-aud").innerHTML=r?`<b>▲ Sospecha de infección aguda.</b> ${ex?`Exposición hace ${d} días (ARN detectable entre 10 y 33 días). `:""}${s?`${s} síntoma(s) o hallazgo(s) compatibles. `:""}Solicitar ARN-NAAT y Ag/Ac a la vez, sin esperar el Ag/Ac (A2); el tamizaje puede ser falso negativo. [NYSDOH p.3 y p.13; MEDINA-2021]`:"Sin criterios de sospecha de infección aguda con los datos actuales.";
+ return r}
+function concl(c){let h="";const lab=c.tipo==="lab",solo=c.tipo==="ab"||c.tipo==="auto",d=c.exp?diff(c.exp,hoy()):null;
+ const TAR="TAR rápida el mismo día; si no es posible, lo antes posible y como máximo a los 30 días [NYSDOH p.4]. Antes de la primera dosis, tomar muestras basales (ARN y genotipo) [WILLIAMS p.614; HIVMA Tabla 4].";
+ if(c.p1==="nr"){
+  h+=al("warn","▲","<b>No reactivo (A2):</b> sin Ag p24 ni anticuerpos detectados. No descarta infección si la prueba se hizo antes del fin de su ventana.");
+  if(!lab)h+=al("warn","▲",solo?"Las pruebas solo de anticuerpos detectan la infección 6-12 días después que un EIA; un no reactivo no descarta infección reciente. Con riesgo reciente, repetir con Ag/Ac de laboratorio [NYSDOH p.18; MEDINA-2021].":"El POC Ag/Ac es menos sensible que el Ag/Ac de laboratorio; con riesgo o síntomas, confirmar con Ag/Ac de laboratorio [NYSDOH p.13 y p.18].");
+  if(d!==null){const [lo,hi]=WV[TW[c.tipo]];h+=d<lo?al("bad","✖",`Han pasado ${d} días desde la exposición; esta prueba es confiable desde el día ${lo}: resultado no confiable. Repetir el <b>${fm(addd(c.exp,hi))}</b>.`):d<hi?al("warn","▲",`Ventana en curso (día ${d} de ${hi}): repetir el <b>${fm(addd(c.exp,hi))}</b>.`):al("ok","✔",`Ventana cumplida (día ${d}): el no reactivo es confiable para esa exposición.`)}
+  if(c.ag&&lab)h+=al("warn","▲","Segunda ventana diagnóstica: un 4.ª generación puede ser no reactivo hasta 28 días, cuando el p24 ya cayó y aún no hay anticuerpos; resolver con NAAT [WILLIAMS p.614].");
+  if(c.nat==="alto")h+=al("bad","●","<b>ARN detectado con tamizaje no reactivo:</b> con NAAT sensible y ≥200 copias/mL se puede presumir infección aguda e iniciar tratamiento (A2); con un NAAT diagnóstico, detectado indica infección aguda. Preferir NAAT diagnóstico sobre el cuantitativo. "+TAR+" [NYSDOH Box 2 p.17]");
+  else if(c.nat==="bajo")h+=al("warn","▲","ARN &lt;200 copias/mL sin evidencia serológica: puede ser falso positivo; repetir ARN y Ag/Ac en 1-2 semanas (A2) [NYSDOH Box 2 p.17].");
+  else if(c.nat==="nd"){const pr=d!==null&&d<33||c.art!=="n";h+=al(pr?"warn":"ok",pr?"▲":"✔","ARN no detectado con Ag/Ac no reactivo: sin evidencia de infección con estas pruebas."+(pr?" Con exposición reciente (<33 días) o PrEP/PEP, repetir al final de la ventana.":""))}
+  else if(c.ag)h+=al("warn","▲","Sospecha aguda: solicitar ARN-NAAT en paralelo, sin esperar el Ag/Ac (A2).");
+  h+=al("","ℹ","Si hay riesgo: ofrecer PrEP/PEP y consejería de reducción de riesgos (A3).")}
+ else if(c.p1==="r"){
+  h+=al("warn","▲","<b>Reactivo: resultado preliminar (A1).</b> Todo tamizaje puede dar falsos positivos; continuar con el algoritmo de laboratorio.");
+  if(c.tipo==="pocs")h+=al("","ℹ","POC Ag/Ac en suero o plasma: si no hay laboratorio instrumentado, un reactivo puede seguir directo al paso 2 [NYSDOH p.13].");
+  else if(!lab)h+=al("warn","▲","Prueba rápida o autoprueba reactiva: obtener sangre venosa y repetir con Ag/Ac de laboratorio. Si este es no reactivo, la prueba rápida fue falsa positiva y no se requiere más estudio; si es reactivo, continuar con el paso 2 [NYSDOH p.13].");
+  const q=c.p2,r=c.p3;
+  if(q==="v1")h+=al("bad","●","<b>Infección por VIH-1 (A1).</b> Recomendar consejería para prevenir la transmisión. "+TAR);
+  if(q==="v2")h+=al("bad","●","<b>Infección por VIH-2 (A1).</b> Recomendar TAR rápida y consejería; derivar a laboratorio de referencia o experto [NYSDOH p.15; WILLIAMS p.614].");
+  if(q==="amb")h+=al("bad","●","<b>Positivo presuntivo (anticuerpos sin tipificar) (A1).</b> Repetir el algoritmo en 2-4 semanas o pedir ARN para definir el tipo. "+TAR);
+  if(q==="nr"||q==="ind"){
+   h+=al("warn","▲","Paso 2 "+(q==="nr"?"no reactivo":"indeterminado")+": solicitar ARN-NAAT (paso 3), de preferencia un ensayo con indicación diagnóstico; algunas infecciones agudas por VIH-1 dan este patrón (A*). Muchos laboratorios lo hacen en reflejo [NYSDOH p.12 y p.15].");
+   if(r==="det")h+=al("bad","●","<b>ARN VIH-1 detectado: infección aguda por VIH-1 (A1).</b> "+TAR);
+   if(r==="det2")h+=al("bad","●","<b>ARN VIH-2 detectado: infección aguda por VIH-2.</b> Los datos de interpretación son limitados; derivar a laboratorio de referencia o experto [NYSDOH Fig.2 nota j].");
+   if(r==="det12")h+=al("bad","●","<b>Coinfección aguda VIH-1/VIH-2.</b> Derivar a laboratorio de referencia o experto [NYSDOH Fig.2 nota j].");
+   if(r==="bajo")h+=al("warn","▲","ARN cuantitativo &lt;200 copias/mL sin evidencia serológica: puede ser falso positivo; repetir ARN y Ag/Ac en 1-2 semanas (A2) [NYSDOH Box 2 p.17].");
+   if(r==="nd"||r==="nd12"){h+=al("ok","✔","<b>ARN no detectado:</b> generalmente falso positivo del tamizaje. Causas posibles: error de muestra, vacunas, embarazo, autoinmunes, hipergammaglobulinemia u otras infecciones [NYSDOH Box 1 p.14].");
+    if(c.art!=="n")h+=al("bad","✖","<b>Excepción:</b> con PrEP/PEP o TAR muy temprano la serología y el ARN pueden ser falsos negativos. Valorar la historia de exposición y repetir con muestra nueva [NYSDOH p.15].");
+    if(q==="ind"&&r==="nd")h+=al("warn","▲","Diferenciador indeterminado y solo ARN VIH-1 negativo: considerar ARN de VIH-2 o repetir el algoritmo en 2-4 semanas con Ag/Ac [NYSDOH Fig.2 nota h].");
+    if(r==="nd12")h+=al("","ℹ","ARN VIH-1/2 no detectado: no se requiere estudio adicional de VIH-2 [NYSDOH Fig.2 nota h].");
+    h+=al("","ℹ","Si el Ag/Ac sigue reactivo con ARN persistentemente indetectable, considerar controlador de élite: ADN proviral y muestreo longitudinal [WILLIAMS p.614; SAAG p.2135].")}}}
+ if(c.art!=="n")h+=al("warn","▲","PrEP/PEP/TAR previo: seroconversión retrasada y ARN bajo o indetectable [WILLIAMS pp.613-614]; con cabotegravir el retraso es de 4-26 semanas frente a 1-12 con TDF/FTC [NYSDOH p.15]. Si hay sospecha ≤3 meses tras PrEP oral o ≤12 meses tras cabotegravir, solicitar anticuerpos y ARN; verificar con repetición un ARN positivo con anticuerpos negativos [HIVMA Tabla 4]. Consultar a un experto.");
+ if(c.emb)h+=al("warn","▲","Embarazo: no esperar confirmación serológica para iniciar TAR si la infección aguda se diagnostica por NAAT (A2) [NYSDOH p.10]. Manejo fuera de alcance: derivar.");
+ if(c.wb)h+=al("","ℹ","Norma local: registrar el Western blot como paso adicional; no altera la conclusión del algoritmo y nunca descarta un 4.ª generación reactivo [MEDINA-2021].");
+ return h+al("","ℹ","Rápidas y autopruebas: todo reactivo se confirma con el algoritmo de laboratorio (A3); un no reactivo NO descarta infección reciente [MEDINA-2021: cinco rápidas no reactivas en una infección aguda confirmada, carga viral &gt;3,000,000 copias/mL].")}
+function dxi(c){const m={v1:"VIH-1",v2:"VIH-2",amb:"Sin tipificar"},e={emb:c.emb,io:c.io};
+ if(c.p1==="r"){if(m[c.p2])return{tipo:m[c.p2],...e};if(c.p2==="nr"||c.p2==="ind"){if(c.p3==="det")return{tipo:"VIH-1",...e};if(c.p3==="det2")return{tipo:"VIH-2",...e};if(c.p3==="det12")return{tipo:"Sin tipificar",...e}}}
+ if(c.p1==="nr"&&c.nat==="alto")return{tipo:"VIH-1",...e};return null}
+function m1(){const c={ag:aguda(),exp:$("#x-exp").value,art:$("#x-art").value,emb:$("#x-emb").checked,io:$("#x-io").checked,wb:$("#x-wb").checked,tipo:$("#x-tipo").value,p1:$("#x-p1").value,nat:$("#x-nat").value,p2:$("#x-p2").value,p3:$("#x-p3").value};
+ const s2=c.p1==="r",s3=s2&&(c.p2==="nr"||c.p2==="ind");$("#nw").hidden=c.p1!=="nr";$("#s2").hidden=!s2;$("#s3").hidden=!s3;
+ ["s1","s2","s3"].forEach(i=>$("#"+i).removeAttribute("aria-current"));$(s3?"#s3":s2?"#s2":"#s1").setAttribute("aria-current","step");
+ $("#x-res").innerHTML=c.p1?concl(c):"";W=dxi(c);m4r()}
+function w(){const e=$("#w-e").value;if(!e){$("#w-r").innerHTML="";return}
+ const [lo,hi]=WV[+$("#w-t").value],d=diff(e,hoy());let c,t;
+ if(d<lo){c="bad";t=`Demasiado pronto (día ${d}; la prueba es confiable desde el día ${lo}): resultado no confiable.`}
+ else if(d<hi){c="warn";t=`Ventana en curso (día ${d} de ${hi}): repetir al final.`}else{c="ok";t=`Ventana cumplida (día ${d}).`}
+ $("#w-r").innerHTML=al(c,c==="ok"?"✔":c==="warn"?"▲":"✖",t+` Fecha sugerida de repetición: <b>${fm(addd(e,hi))}</b>. Un negativo antes del fin de la ventana no descarta infección. Con PrEP/PEP/TAR las ventanas pueden alargarse.`)}
+$$("#m1 select,#m1 input").forEach(e=>e.addEventListener("change",()=>{m1();w()}));
+// ===== MÓDULO 4 (solo lectura; fuente única SAAG-2021) =====
+const TX=[["Bictegravir–FTC–TAF (50/200/25 mg)","Una vez al día, tableta única."],["Dolutegravir (50 mg) más TAF–FTC (25/200 mg)","Una vez al día, tableta única."],["Dolutegravir (50 mg) más TDF–FTC (300/200 mg)","Una vez al día, tableta única."],["Dolutegravir (50 mg) más TDF–3TC (300/300 mg)","Tabletas individuales, una vez al día."],["Dolutegravir–3TC (50/300 mg)","Una vez al día, tableta única. NO usar con resistencia a lamivudina (M184V o M184I), infección por VHB, ARN >500,000 copias/mL, CD4 <200 células/mm³ ni en inicio rápido. Suele usarse tras una fase de 12 semanas con otro esquema de tres fármacos."],["Raltegravir (600 mg) más las mismas bases","Dos tabletas una vez al día. Incluido según las guías del HHS citadas por Saag."]];
+function m4(p){const o=$("#m4c");if(!p){o.innerHTML="<p class=sub>Se activa con un diagnóstico del asistente (módulo 1) o con un paciente confirmado del módulo 2.</p>";return}
+ if(p.tipo==="VIH-2"||p.tipo==="Sin tipificar"||p.emb||p.io){o.innerHTML=al("bad","✖","Fuera del alcance de la fuente; derivar a guía o experto específico (VIH-2, embarazo o infección oportunista activa).");return}
+ o.innerHTML=al("warn","▲","Antes de la primera dosis, confirmar el diagnóstico y tomar muestras basales (ARN y genotipo) [WILLIAMS p.614; HIVMA Tabla 4].")+`<details open><summary>Principios [SAAG p.2135]</summary><ul><li>Esquema inicial basado en inhibidor de integrasa (INSTI) con tenofovir (TDF o TAF) más lamivudina (3TC) o emtricitabina (FTC).</li><li>Con rara excepción, iniciar TAR en la primera visita; no iniciar si es controlador de élite o el paciente no está listo.</li><li>En la primera visita, sin laboratorios basales: bictegravir–FTC–TAF, o dolutegravir más una combinación fija (TDF–FTC, TDF–3TC o TAF–FTC), por eficacia, perfil de efectos adversos, actividad contra VHB y mayor barrera a la resistencia.</li><li>Ajustar al conocer ARN, CD4, función renal y hepática, VHB, VHC y genotipo; puede simplificarse a dolutegravir–3TC.</li><li>Los esquemas lograron &gt;90% de supresión sostenida en ensayos clínicos.</li></ul></details>
+<details><summary>Esquemas [SAAG Tabla 2 p.2139]</summary><ul>${TX.map(t=>`<li><b>${t[0]}:</b> ${t[1]}</li>`).join("")}</ul></details>
+<details><summary>Advertencias de la fuente</summary><ul><li>No recomendado con depuración de creatinina &lt;30 mL/min o Child-Pugh C (bictegravir y dolutegravir); con combinaciones con tenofovir y FTC/3TC, tampoco con Child-Pugh B.</li><li>Contraindicado con dofetilida; bictegravir también con rifampicina.</li><li>Evitar cationes divalentes (Ca, Mg, Fe), fenitoína, carbamazepina y rifapentina; precaución con metformina.</li><li>Efectos adversos: síntomas gastrointestinales, cefalea, IRIS, acidosis láctica, esteatosis hepática.</li><li>Valorar adherencia y efectos adversos en cada visita; aumento de peso frecuente con INSTI + TAF; HLA-B*5701 antes de abacavir y tropismo antes de un antagonista de CCR5 [HIVMA Tabla 4].</li></ul></details>`}
+
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function m4r(){const v=$("#m4s").value;let p=W;if(v!=="w"){const x=(window.RV?RV.get():[]).find(q=>q.folio===v);p=x&&x.conf?{tipo:x.tipo,emb:x.emb,io:x.io}:null}m4(p)}
+function m4l(){const v=$("#m4s").value,L=window.RV?RV.get().filter(q=>q.conf):[];$("#m4s").innerHTML='<option value="w">Resultado del asistente (módulo 1)</option>'+L.map(q=>`<option value="${esc(q.folio)}">Paciente ${esc(q.folio)}</option>`).join("");if(L.some(q=>q.folio===v))$("#m4s").value=v}
+$("#m4s").onchange=m4r;addEventListener("rv-cambio",()=>{m4l();m4r()});
+m1();
+
+})();</script>
+<script>(()=>{"use strict";
+
+// ===== CONFIGURACIÓN INSTITUCIONAL =====
+const CFG={
+ normaLocal:"",            // Norma local aplicable (texto libre; p. ej. "NOM-010-SSA2-2010")
+ umbralPerdidaDias:null,   // Umbral de pérdida de seguimiento en días. [FALTA EN FUENTES]; null = desactivado
+ margenDias:14             // Margen tras el fin de cada ventana de control (supuesto de la herramienta, no de las fuentes)
+};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],KEY="rutaVIH.v1";
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ymd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");const DAY=864e5,iso=d=>d.toISOString().slice(0,10),T0=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
+const dt=s=>new Date(s+"T00:00:00"),add=(s,n)=>{const d=dt(s);d.setDate(d.getDate()+n);return ymd(d)},fm=s=>s?dt(s).toLocaleDateString("es-MX"):"—";
+const diff=(a,b)=>Math.round((dt(b)-dt(a))/DAY),hoy=()=>ymd(new Date());
+// ===== Almacenamiento (con respaldo en memoria) =====
+let mem=[];
+const load=()=>{try{const v=JSON.parse(localStorage.getItem(KEY)||"[]");return Array.isArray(v)?v:[]}catch(e){return mem}};
+const save=a=>{mem=a;try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){$("#d-msg").textContent="No se pudo guardar en el navegador; los datos duran solo esta sesión."}};
+let P=load(),sel=null;
+const CONS=["Resultado informado al paciente","Consejería sobre transmisión realizada","Vinculación a atención agendada","Resultado inconcluso: nueva muestra y repetir el algoritmo"]; // [MEDINA-2021; NYSDOH Tabla 1 como práctica]
+$("#f-ck").innerHTML=CONS.map((s,i)=>`<label class="ck"><input type="checkbox" class="fc" value="${i}">${s}</label>`).join("");
+const sure=(b,f)=>{if(b.dataset.s){clearTimeout(+b.dataset.s);b.textContent=b.dataset.o;delete b.dataset.s;f()}else{b.dataset.o=b.textContent;b.textContent="¿Seguro? Pulse de nuevo";b.dataset.s=setTimeout(()=>{b.textContent=b.dataset.o;delete b.dataset.s},5000)}};const jump=id=>{const t=document.querySelector('[data-v="tool"]');if(t&&document.getElementById("v-tool").hidden)t.click();const e=document.getElementById(id);if(e)e.scrollIntoView()};
+// ===== MÓDULO 2 =====
+function sendPf(ev){ev.preventDefault();const g=i=>$("#f-"+i).value.trim(),er=[],folio=g("folio");
+ if(!/^[A-Za-z0-9_-]{1,20}$/.test(folio))er.push("Folio: use letras, números, guion o guion bajo (sin espacios ni nombres).");
+ const ed=+g("edad");if(!ed||ed<18||ed>120)er.push("Edad: la herramienta es para personas adultas (18 a 120).");
+ ["dx","tar","exp"].forEach(k=>{if(g(k)&&g(k)>hoy())er.push("La fecha de "+({dx:"diagnóstico",tar:"inicio de TAR",exp:"exposición"})[k]+" no puede ser futura.")});
+ if(g("tar")&&g("dx")&&g("tar")<g("dx"))er.push("El inicio de TAR no puede ser anterior al diagnóstico.");
+ if(er.length){$("#f-err").innerHTML=esc(er.join(" "));return}
+ $("#f-err").textContent="";const o=P.find(p=>p.folio===folio)||{ev:[],bl:{}};
+ const p1=g("p1"),p2=g("p2"),p3=g("p3"),conf=(p1==="r"&&["v1","v2","amb"].includes(p2))||p3==="det"||!!g("dx");
+ Object.assign(o,{folio,edad:ed,exp:g("exp"),p1,p2,p3,art:g("art"),dx:g("dx"),tar:g("tar"),cita:g("cita"),sint:g("sint"),emb:$("#f-emb").checked,io:$("#f-io").checked,cons:$$(".fc:checked").map(c=>+c.value),conf,tipo:p2==="v2"?"VIH-2":p2==="amb"?"Sin tipificar":"VIH-1"});
+ if(!P.includes(o))P.push(o);save(P);sel=folio;draw();$("#f-err").textContent="Guardado.";}
+$("#pf").addEventListener("submit",sendPf);
+function edit(folio){const p=P.find(x=>x.folio===folio);if(!p)return;["folio","edad","exp","p1","p2","p3","art","dx","tar","cita","sint"].forEach(k=>$("#f-"+k).value=p[k]??"");
+ $("#f-emb").checked=!!p.emb;$("#f-io").checked=!!p.io;$$(".fc").forEach(c=>c.checked=(p.cons||[]).includes(+c.value));jump("m2")}
+$("#nuevo").onclick=()=>{$("#pf").reset();$("#f-err").textContent="";sel=null;jump("m2");$("#f-folio").focus()};
+// ===== MÓDULO 3 =====
+function calc(p){const t=hoy(),ev=(p.ev||[]).slice().sort((a,b)=>a.d<b.d?-1:1),cv=ev.filter(e=>e.t==="cv"),cd=ev.filter(e=>e.t==="cd4"),r={al:[],tg:[],nx:[],sem:"ok"};
+ const w=(c,x)=>{r.sem=c==="bad"||r.sem==="bad"?"bad":c==="warn"?"warn":r.sem;r.tg.push(x)};
+ if(!p.conf){r.est="En diagnóstico";r.sem="warn"}
+ else if(!p.tar){r.est="En vinculación";r.sem="warn";if(!p.cita){r.al.push("Diagnosticado sin cita de seguimiento agendada; llamar tras inasistencia [SAAG p.2141].");r.tg.push("Sin cita")}
+  r.al.push("TAR rápida: mismo día o ≤7 días (máx. 30 d) [HIVMA; NYSDOH]. Tomar antes ARN y genotipo [WILLIAMS p.614; HIVMA Tabla 4].");
+  if(p.dx)r.nx.push(["TAR rápida ≤7 días",add(p.dx,0),add(p.dx,7)])}
+ else r.est="En seguimiento";
+ const last=cv[cv.length-1],prev=cv[cv.length-2];
+ if(p.tar){ // [HIVMA p.16 y Tabla 5] rangos en días
+  let lo,hi,tx;
+  if(!last){lo=14;hi=28;tx="Carga viral a las 2-4 semanas del inicio (máx. 8)";var b=p.tar}
+  else{b=last.d;
+   if(last.v>=200||last.v>0&&last.v<200&&!prev){lo=28;hi=56;tx="Carga viral cada 4-8 semanas hasta supresión"}
+   else{const s=cv.filter(e=>e.v<200);const long=s.length&&diff(s[0].d,t)>365&&cv.slice(cv.indexOf(s[0])).every(e=>e.v<200);
+    if(long){lo=hi=183;tx="Carga viral cada 6 meses (supresión >1 año y estado estable)"}else{lo=91;hi=122;tx="Carga viral cada 3-4 meses"}}
+   if(last.v>0&&last.v<200&&prev&&prev.v<200){lo=14;hi=28;tx="Blip: valorar adherencia, tolerabilidad e interacciones; repetir en 2-4 semanas"}}
+  r.nx.push([tx,add(b,lo),add(b,hi)]);
+  if(t>add(b,hi+CFG.margenDias)){w("warn","Carga viral fuera de calendario");r.al.push("Carga viral fuera de calendario.")}
+  if(last&&prev&&last.v>200&&prev.v>200){w("bad","Falla virológica");r.al.push("Dos mediciones consecutivas >200 copias/mL: genotipo (PR, RT e integrasa si aplica) con el esquema fallido o ≤4 semanas de suspenderlo [HIVMA]. Revisar adherencia [SAAG p.2138].")}
+  else if(last&&last.v>50&&last.v<=200&&cv.length>1&&prev.v<=50)r.al.push(">50 copias/mL tras supresión: repetir pronto y revisar adherencia [SAAG p.2138].");
+  if(last&&last.v>0&&last.v<200)r.al.push("Viremia <200 copias/mL (blip o viremia baja): si persiste, medir al menos cada 3 meses [HIVMA].");
+  const lc=cd[cd.length-1];if(lc){const ys=diff(p.tar,t)<730||last&&last.v>=200||lc.v<300;r.nx.push([ys?"CD4 cada 3-6 meses (primeros 2 años, viremia o CD4 <300)":"CD4 cada 12 meses si 300-500 con supresión de 2 años; opcional si >500",add(lc.d,ys?91:365),add(lc.d,ys?183:365)])}
+  r.nx.push(["Química sanguínea 1-2 meses tras iniciar o cambiar TAR, luego cada 6 meses; biometría anual",add(p.tar,30),add(p.tar,61)])}
+ const lc=cd[cd.length-1];
+ if(lc&&lc.v<200){w("warn","CD4 <200");r.al.push("CD4 <200: evaluar profilaxis contra P. jirovecii y toxoplasma IgG [HIVMA Tabla 4; SAAG Tabla 3].")}
+ if(lc&&lc.v<100)r.al.push("CD4 <100: antígeno criptocócico sérico [HIVMA Tabla 4; SAAG Tabla 3].");
+ if(p.cita){if(p.cita<t){w("bad","Cita vencida");r.al.push("Cita vencida: llamar por teléfono al paciente [SAAG p.2141].")}else r.tg.push("Cita próxima")}
+ const ult=[p.dx,p.tar,...ev.map(e=>e.d)].filter(Boolean).sort().pop();
+ if(CFG.umbralPerdidaDias!=null&&ult&&diff(ult,t)>CFG.umbralPerdidaDias){w("bad","Posible pérdida de seguimiento")}
+ r.cv=last?last.v:null;r.cd=lc?lc.v:null;return r}
+const ICO={ok:"✔",warn:"▲",bad:"✖"};
+function draw(){const q=$("#q").value.toLowerCase(),f=$("#fl").value;P=load();if(!P.length&&mem.length)P=mem;
+ const C=P.map(p=>[p,calc(p)]);
+ const tags=[...new Set(C.flatMap(([,c])=>[c.est,...c.tg]))];$("#fl").innerHTML='<option value="">Todos</option>'+tags.map(t=>`<option${t===f?" selected":""}>${esc(t)}</option>`).join("");
+ const rows=C.filter(([p,c])=>p.folio.toLowerCase().includes(q)&&(!f||c.est===f||c.tg.includes(f)));
+ $("#tb").innerHTML=rows.length?rows.map(([p,c])=>`<tr><td>${esc(p.folio)}</td><td>${esc(c.est)}</td><td><span class="sm ${c.sem}">${ICO[c.sem]} ${c.sem==="ok"?"Al día":c.sem==="warn"?"Atención":"Urgente"}</span><br><small>${esc(c.tg.join(", "))}</small></td><td>${c.nx[0]?fm(c.nx[0][1])+" – "+fm(c.nx[0][2]):"—"}</td><td><button class="btn s" data-o="${esc(p.folio)}">Abrir</button></td></tr>`).join(""):`<tr><td colspan="5">Sin pacientes. Registre uno en el módulo 2.</td></tr>`;
+ $$("[data-o]").forEach(b=>b.onclick=()=>{sel=b.dataset.o;draw();jump("det")});
+ const act=C.filter(([p])=>p.conf),vl=act.filter(([,c])=>c.cv!==null),ok=vl.filter(([,c])=>c.cv<200).length,pc=vl.length?Math.round(ok/vl.length*100):null;
+ const tt=act.filter(([p])=>p.dx&&p.tar).map(([p])=>diff(p.dx,p.tar)),mt=tt.length?(tt.reduce((a,b)=>a+b,0)/tt.length).toFixed(1):"—";
+ $("#kp").innerHTML=[["Pacientes activos",act.length],["Citas vencidas",C.filter(([,c])=>c.tg.includes("Cita vencida")).length],["Con carga viral <200",pc===null?"—":pc+"%"],["Días diagnóstico → TAR (media)",mt]].map(([a,b])=>`<div class="card"><small>${a}</small><div style="font-size:2rem;font-weight:700">${b}</div></div>`).join("")+`<div class="card" style="grid-column:1/-1"><small>Carga viral &lt;200 copias/mL</small><div class="bar" role="img" aria-label="${pc??0}% con carga viral menor de 200"><i style="width:${pc??0}%"></i></div></div>`;
+ const s=C.find(([p])=>p.folio===sel);$("#det").innerHTML=s?detail(...s):"";bind();
+ window.RV={get:()=>P};dispatchEvent(new Event("rv-cambio"))}
+const BL=["Fecha aproximada de diagnóstico y de adquisición","Exposición previa a antirretrovirales/PrEP/PEP; resistencias previas","CD4 nadir y carga viral máxima","Infecciones oportunistas previas","Historia sexual (5 P); uso de sustancias","Necesidades sociales (vivienda, alimentos, transporte)","Ag/Ac si no hay diagnóstico documentado","CD4; carga viral; genotipo PR/RT (integrasa si hay sospecha)","Biometría hemática; perfil hepático y renal; lípidos; glucosa/HbA1c; examen de orina","ITS: gonorrea/clamidia por NAAT, tricomonas, sífilis","TB latente; varicela; hepatitis A, B y C; sarampión","Antígeno criptocócico si CD4 <100; toxoplasma IgG si CD4 <200","HLA-B*5701 si se considera abacavir; tropismo si se considera antagonista de CCR5","Prueba de embarazo si aplica"]; // [HIVMA Tablas 1 y 4]
+function detail(p,c){const E=[];if(p.dx)E.push([p.dx,"Diagnóstico confirmado"]);if(p.tar)E.push([p.tar,"Inicio de TAR"]);
+ (p.ev||[]).forEach(e=>E.push([e.d,({cv:"Carga viral "+e.v+" copias/mL",cd4:"CD4 "+e.v+" células/mm³",gen:"Genotipo",cita:"Cita realizada"})[e.t]]));E.sort((a,b)=>a[0]<b[0]?-1:1);
+ return `<div class="card sticky"><h3 style="margin-top:0">Paciente ${esc(p.folio)} · ${esc(c.est)}</h3>${c.al.map(a=>al(c.sem,ICO[c.sem],esc(a))).join("")}
+<h3>Línea de tiempo</h3><ol>${E.map(e=>`<li>${fm(e[0])}: ${esc(e[1])}</li>`).join("")||"<li>Sin eventos.</li>"}${c.nx.map(n=>`<li class="ev">${diff(n[2],hoy())>0?"Vencido":"Próximo"}: ${esc(n[0])} (${fm(n[1])} – ${fm(n[2])})</li>`).join("")}${p.cita?`<li class="ev">${p.cita<hoy()?"Vencida":"Próxima"} cita: ${fm(p.cita)}</li>`:""}</ol>
+<div class="g"><div><label for="e-t">Evento</label><select id="e-t"><option value="cv">Carga viral</option><option value="cd4">CD4</option><option value="gen">Genotipo</option><option value="cita">Cita realizada</option></select></div><div><label for="e-d">Fecha</label><input type="date" id="e-d"></div><div><label for="e-v">Valor (copias/mL o células/mm³; 0 = indetectable)</label><input type="number" id="e-v" min="0"></div></div>
+<p><button class="btn" id="e-add">Agregar evento</button> <button class="btn s" id="e-ed">Editar registro</button> <button class="btn d" id="e-del">Eliminar paciente</button></p><p class="err" id="e-err" role="alert"></p>
+<details><summary>Evaluación basal [HIVMA Tablas 1 y 4]</summary>${BL.map((b,i)=>`<label class="ck"><input type="checkbox" class="bl" value="${i}"${p.bl&&p.bl[i]?" checked":""}>${b}</label>`).join("")}</details>
+<p><small>Salud integral: cribado anual de depresión (PHQ-9/GAD-2), sustancias y alcohol; barreras sociales y violencia; revelación del diagnóstico y notificación a parejas; llamadas y navegación para retención [HIVMA; SAAG].</small></p></div>`}
+function bind(){const p=P.find(x=>x.folio===sel);if(!p||!$("#e-add"))return;
+ $("#e-add").onclick=()=>{const t=$("#e-t").value,d=$("#e-d").value,v=$("#e-v").value;let m="";
+  if(!d||d>hoy())m="Indique una fecha válida (no futura).";else if((t==="cv"||t==="cd4")&&(v===""||+v<0))m="Indique un valor numérico válido.";
+  if(m){$("#e-err").textContent=m;return}(p.ev=p.ev||[]).push({t,d,v:v===""?null:+v});save(P);draw()};
+ $("#e-ed").onclick=()=>edit(p.folio);
+ $("#e-del").onclick=function(){sure(this,()=>{P=P.filter(x=>x!==p);save(P);sel=null;draw()})};
+ $$(".bl").forEach(c=>c.onchange=()=>{p.bl=p.bl||{};p.bl[c.value]=c.checked;save(P)})}
+$("#q").oninput=draw;$("#fl").onchange=draw;
+// ===== Exportar / importar / borrar =====
+const dl=(n,t,m)=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:m}));a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)};
+$("#ej").onclick=()=>dl("ruta-vih-"+hoy()+".json",JSON.stringify(P,null,1),"application/json");
+$("#ec").onclick=()=>{const q=v=>{v=String(v??"");if(/^[=+\-@\t\r]/.test(v))v="'"+v;return '"'+v.replace(/"/g,'""')+'"'},H=["folio","edad","estado","tipo","fecha_dx","inicio_tar","proxima_cita","ultima_cv","ultimo_cd4"];
+ dl("ruta-vih-"+hoy()+".csv",[H.join(","),...P.map(p=>{const c=calc(p);return [p.folio,p.edad,c.est,p.tipo,p.dx,p.tar,p.cita,c.cv,c.cd].map(q).join(",")})].join("\n"),"text/csv")};
+$("#ij").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const a=JSON.parse(r.result);if(!Array.isArray(a)||a.some(x=>!x||typeof x.folio!=="string"))throw 0;P=a;save(P);$("#d-msg").textContent="Importados "+a.length+" registros.";draw()}catch(x){$("#d-msg").textContent="Archivo no válido: se esperaba un arreglo JSON de pacientes con folio."}};r.readAsText(f)};
+$("#bo").onclick=function(){sure(this,()=>{P=[];mem=[];try{localStorage.removeItem(KEY)}catch(e){}sel=null;draw()})};
+
+draw();
+})();</script>
+<script>(()=>{"use strict";
+
+// ===== CASOS (editables). En cada paso, o[0] es la respuesta correcta; se mezclan al mostrarlas.
+// Campos: t tema, n título, v viñeta, r ruta del diagrama, s pasos {d dato revelado, q pregunta, o opciones, h pista, e explicación, f fuente}
+const C=[
+{t:"Algoritmo",n:"Primer tamizaje reactivo",v:"Mujer de 28 años, asintomática, tamizaje universal en urgencias.",r:["A","R","B","POS"],s:[
+ {d:"Ag/Ac VIH-1/2 de laboratorio: reactivo.",q:"¿Cómo lo interpretas?",o:["Preliminar: continuar con el ensayo diferenciador de anticuerpos","Positivo confirmado: iniciar TAR hoy","Falso positivo probable: repetir en 6 meses","Pedir Western blot como confirmación"],h:"Todo reactivo inicial es susceptible de falsos positivos.",e:"Todo reactivo inicial es preliminar; sigue el diferenciador VIH-1/VIH-2. El Western blot ya no forma parte del algoritmo.",f:"NYSDOH Fig.2 p.11; SAAG Fig.2 p.2134 · A1"},
+ {d:"Diferenciador: anticuerpos VIH-1 detectados.",q:"¿Cuál es la conducta?",o:["Diagnóstico de VIH-1: recomendar TAR rápida y consejería para prevenir la transmisión","Solicitar ARN-NAAT antes de informar","Repetir el Ag/Ac en 4 semanas","Descartar infección"],h:"El ARN se pide cuando el diferenciador es negativo o indeterminado.",e:"Con anticuerpos VIH-1 detectados el diagnóstico queda establecido; se recomienda TAR rápida y consejería.",f:"NYSDOH p.3 y p.9 · A1"}]},
+{t:"Falsos positivos",n:"Reactivo sin confirmación",v:"Hombre de 35 años, chequeo de rutina, sin síntomas ni exposición reciente.",r:["A","R","B","NI","C","ND"],s:[
+ {d:"Ag/Ac reactivo; diferenciador no reactivo.",q:"¿Qué sigue?",o:["ARN-NAAT VIH-1 o VIH-1/2 (paso 3)","Informar que es negativo","Repetir el mismo Ag/Ac","Solicitar Western blot"],h:"Es el paso 3 del algoritmo.",e:"Reactivo con diferenciador no reactivo o indeterminado: ARN-NAAT para descartar infección aguda.",f:"NYSDOH Fig.2 p.11 · A*"},
+ {d:"ARN-NAAT: no detectado.",q:"¿Conclusión?",o:["Generalmente falso positivo del tamizaje; ofrecer prevención si hay riesgo","Infección aguda por VIH-1","Infección por VIH-2","Iniciar TAR por precaución"],h:"Piensa en la excepción: ¿toma PrEP, PEP o TAR?",e:"ARN no detectado con diferenciador no reactivo indica en general falso positivo. Con riesgo: PrEP/PEP y reducción de riesgos (A3).",f:"NYSDOH p.15 y p.3 · A3"}]},
+{t:"Infección aguda",n:"Fiebre y adenopatías",v:"Hombre de 24 años con fiebre, faringitis, adenopatías cervicales y mialgias desde hace 5 días; sexo sin condón hace 12 días.",r:["A","R","B","NI","C","DET"],s:[
+ {q:"Sospechas infección aguda. ¿Qué solicitas?",o:["Ag/Ac y ARN-NAAT al mismo tiempo, sin esperar el Ag/Ac","Solo Ag/Ac; ARN si sale reactivo","Prueba rápida de anticuerpos","Western blot"],h:"El Ag/Ac puede ser falso negativo cuando el ARN ya es detectable.",e:"Con sospecha aguda se piden ambos a la vez (A2). Exposición a 10-33 días y síndrome retroviral sustentan la sospecha.",f:"NYSDOH p.3 y p.13 · A2"},
+ {d:"Ag/Ac reactivo; diferenciador indeterminado; ARN-NAAT detectado.",q:"¿Diagnóstico?",o:["Infección aguda por VIH-1: TAR y consejería","Falso positivo","Esperar 4 semanas y repetir","Infección descartada"],h:"ARN detectado con anticuerpos no definitivos.",e:"ARN detectado con diferenciador no reactivo o indeterminado equivale a infección aguda (A1).",f:"NYSDOH Fig.2 p.11 y p.15 · A1"}]},
+{t:"Pruebas rápidas",n:"Cinco negativas",v:"Hombre de 29 años con fiebre y adenopatías. Cinco pruebas rápidas no reactivas en distintos centros; el 4.ª generación de laboratorio fue reactivo tres veces y el Western blot, negativo.",r:["A","R","B","NI","C","DET"],s:[
+ {q:"¿El Western blot negativo descarta VIH?",o:["No: nunca descarta un 4.ª generación reactivo; completar el algoritmo con ARN","Sí: es el estándar de confirmación","Sí, porque las rápidas fueron negativas","Repetir una rápida en 3 meses"],h:"Las rápidas y el Western blot detectan solo anticuerpos.",e:"En infección aguda aún no hay anticuerpos detectables. Ante discordancia, priorizar el 4.ª generación de laboratorio y el ARN.",f:"MEDINA-2021 · NYSDOH Fig.2 p.11"},
+ {d:"ARN-NAAT: más de 3,000,000 copias/mL.",q:"¿Siguiente paso?",o:["Infección aguda: TAR rápida y consejería","Repetir el Western blot","Descartar por las rápidas","Informar falso positivo"],h:"Piensa en la carga viral.",e:"Cinco rápidas negativas no descartan infección aguda; el ARN confirma.",f:"MEDINA-2021 · NYSDOH p.15 · A1"}]},
+{t:"PrEP/PEP/TAR",n:"Cabotegravir y síntomas",v:"Hombre de 31 años con cabotegravir inyectable como PrEP desde hace 10 meses; fiebre y faringitis hace una semana.",r:["A","NR"],s:[
+ {d:"Ag/Ac de laboratorio: no reactivo.",q:"¿Descarta infección?",o:["No: solicitar anticuerpos y ARN, y consultar a un experto","Sí: el Ag/Ac es muy sensible","Sí, tras una rápida negativa","Repetir en 12 meses"],h:"El cabotegravir puede retrasar la detección.",e:"Con cabotegravir (≤12 meses) la detección se retrasa 4-26 semanas (frente a 1-12 con TDF/FTC). Pedir anticuerpos y ARN.",f:"HIVMA Tabla 4; NYSDOH p.15"},
+ {d:"ARN-NAAT: 120 copias/mL; anticuerpos negativos.",q:"¿Cómo manejas el ARN bajo?",o:["Repetir ARN y Ag/Ac en 1-2 semanas y consultar a un experto","Presumir infección e iniciar TAR hoy","Ignorarlo: menos de 200 es negativo","Informar falso negativo del ARN"],h:"Un ARN positivo con anticuerpos negativos se verifica.",e:"ARN <200 sin serología puede ser falso positivo o infección temprana: repetir ARN y Ag/Ac en 1-2 semanas (A2).",f:"NYSDOH Box 2 p.17 · A2; HIVMA Tabla 4"}]},
+{t:"PrEP/PEP/TAR",n:"ARN negativo bajo PrEP",v:"Mujer de 26 años con PrEP oral y adherencia irregular; asintomática.",r:["A","R","B","NI","C","ND"],s:[
+ {d:"Ag/Ac reactivo; diferenciador no reactivo; ARN-NAAT no detectado.",q:"¿Es seguro concluir falso positivo?",o:["No siempre: valorar exposición y uso de PrEP, y repetir con muestra nueva","Sí, siempre","Iniciar TAR sin repetir","Pedir Western blot"],h:"Los antirretrovirales alteran los marcadores.",e:"Con PrEP/PEP o TAR temprano pueden retrasarse los anticuerpos y suprimirse el ARN: revisar exposición y uso, y repetir con sangre fresca.",f:"NYSDOH p.15; WILLIAMS pp.613-614"}]},
+{t:"Algoritmo",n:"Positivo sin tipificar",v:"Hombre de 40 años, tamizaje por pareja nueva.",r:["A","R","B","POS"],s:[
+ {d:"Ag/Ac reactivo; diferenciador: anticuerpos detectados sin tipificar (VIH-1 y VIH-2 positivos).",q:"¿Conducta?",o:["Positivo presuntivo: TAR rápida; repetir el algoritmo en 2-4 semanas o pedir ARN para definir el tipo","Negativo","Falso positivo: repetir en 1 año","No actuar hasta conocer el tipo"],h:"Hay anticuerpos, aunque no se distingue el tipo.",e:"Anticuerpos sin tipificar se tratan como positivo presuntivo (A1); el tipo se define repitiendo en 2-4 semanas o con ARN.",f:"NYSDOH p.15 y Fig.2 p.11 · A1"}]},
+{t:"Situaciones especiales",n:"Indeterminado repetido",v:"Mujer de 45 años con residencia previa en África occidental; tamizaje.",r:["A","R","B","NI","C","ND"],s:[
+ {d:"Ag/Ac reactivo; diferenciador VIH-2 indeterminado en dos cartuchos; ARN-NAAT VIH-1 no detectado.",q:"¿Qué haces?",o:["Considerar ARN de VIH-2 o repetir el algoritmo en 2-4 semanas; derivar a referencia","Descartar VIH","Diagnosticar VIH-1","Iniciar TAR de inmediato sin más estudios"],h:"El ARN VIH-1 no detecta VIH-2.",e:"Con indeterminado repetido y ARN VIH-1 negativo: ARN de VIH-2 o repetir en 2-4 semanas; el VIH-2 requiere laboratorio de referencia.",f:"NYSDOH p.12 nota h y p.15; WILLIAMS p.614"}]},
+{t:"Ventanas",n:"Exposición hace ocho días",v:"Hombre de 22 años con sexo sin condón hace 8 días; solicita una prueba.",r:["A","NR"],s:[
+ {d:"Ag/Ac de laboratorio: no reactivo.",q:"¿Es confiable?",o:["No: es demasiado pronto (ventana de 18-45 días); repetir al final","Sí: descarta infección","Sí, si repite una rápida hoy","Solo si fuera autoprueba"],h:"Compara con la ventana de la prueba.",e:"Ag/Ac de laboratorio: 18-45 días; NAAT: 10-33 días. A los 8 días ninguno es confiable. Ofrecer PrEP/PEP y reducción de riesgos (A3).",f:"NYSDOH Tabla 2 p.8; p.3 · A3"},
+ {q:"¿Cuándo repites el Ag/Ac de laboratorio?",o:["A los 45 días de la exposición","A los 7 días","A los 12 meses","No hace falta repetir"],h:"Exposición más el límite superior de la ventana.",e:"Fecha sugerida = exposición + límite superior (45 días); referencia compartida por Reino Unido, UE y CDC.",f:"WILLIAMS p.617; NYSDOH Tabla 2 p.8"}]},
+{t:"Infección aguda",n:"ARN sin serología",v:"Mujer de 33 años con malestar y exantema; sexo sin condón hace 3 semanas.",r:["A","NR"],s:[
+ {d:"Ag/Ac no reactivo; ARN cuantitativo: 80 copias/mL.",q:"¿Qué haces?",o:["Repetir ARN y Ag/Ac en 1-2 semanas","Iniciar TAR hoy","Diagnosticar VIH-2","Descartar: es menor de 200"],h:"Viremia baja sin serología.",e:"ARN <200 copias/mL sin evidencia serológica puede ser un falso positivo: repetir ARN y Ag/Ac en 1-2 semanas (A2). Preferir un ARN-NAAT diagnóstico.",f:"NYSDOH Box 2 p.17 · A2"},
+ {d:"Otro paciente: ARN 45,000 copias/mL con tamizaje no reactivo.",q:"¿Presumes infección aguda?",o:["Sí: con ARN ≥200 y tamizaje negativo o indeterminado se puede presumir e iniciar tratamiento","No: esperar el Western blot","No: repetir en 6 meses","Solo si hay síntomas"],h:"Compara con el umbral de 200 copias/mL.",e:"ARN ≥200 copias/mL con NAAT sensible y tamizaje negativo o indeterminado permite presumir infección aguda e iniciar tratamiento (A2).",f:"NYSDOH Box 2 p.17 · A2"}]}];
+// ===== Diagrama (Fig. 2, NYSDOH p.11)
+const ND={A:["1. Ag/Ac 4.ª gen",240,8,160],NR:["No reactivo",30,78,170],R:["Reactivo (preliminar)",240,78,160],B:["2. Diferenciador Ac",240,148,160],POS:["Positivo: TAR rápida",30,218,190],NI:["No reactivo / indeterminado",400,218,220],C:["3. ARN-NAAT",400,282,220],DET:["ARN detectado: agudo",330,350,170],ND:["No detectado",520,350,110]};
+const LN=[[320,40,115,78],[320,40,320,78],[320,110,320,148],[320,180,125,218],[320,180,510,218],[510,250,510,282],[510,314,415,350],[510,314,575,350],[400,24,630,24,1],[630,24,630,298,1],[630,298,620,298,1]];
+const svg=r=>`<svg viewBox="0 0 640 390" role="img" aria-label="Ruta del caso en el algoritmo: ${r.map(k=>ND[k][0]).join(", ")}"><text x="515" y="17" style="font-size:11px">ARN-NAAT simultáneo si hay sospecha aguda</text>${LN.map(l=>`<line x1="${l[0]}" y1="${l[1]}" x2="${l[2]}" y2="${l[3]}"${l[4]?' stroke-dasharray="5 4"':""}/>`).join("")}${Object.entries(ND).map(([k,[t,x,y,w]])=>`<g${r.includes(k)?' class="on"':""}><rect x="${x}" y="${y}" width="${w}" height="32" rx="8"/><text x="${x+w/2}" y="${y+21}">${t}${r.includes(k)?" ✔":""}</text></g>`).join("")}</svg>`;
+// ===== Estado y progreso
+const K="practicaVIH.v2",$=s=>document.querySelector(s);let S={t:{},f:[],h:0};
+try{S=Object.assign(S,JSON.parse(localStorage.getItem(K))||{})}catch(e){}
+const sv=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const sure=(b,f)=>{if(b.dataset.s){clearTimeout(+b.dataset.s);b.textContent=b.dataset.o;delete b.dataset.s;f()}else{b.dataset.o=b.textContent;b.textContent="¿Seguro? Pulse de nuevo";b.dataset.s=setTimeout(()=>{b.textContent=b.dataset.o;delete b.dataset.s},5000)}};let ci=0,si=0,pts=0,fail=0,ord=[],ans=false,cola=null,ph=0;
+const mix=n=>{const a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+$("#cs").innerHTML=C.map((c,i)=>`<option value="${i}">Caso ${i+1} · ${c.n} (${c.t})</option>`).join("");
+function show(){const c=C[ci],p=c.s[si],ex=$("#md").value==="x";
+ if(!p){const ok=pts===c.s.length;$("#cv").innerHTML=`<h3 style="margin-top:0">Caso ${ci+1} terminado: ${pts} de ${c.s.length} correctas</h3><p>Ruta del algoritmo en este caso:</p>${svg(c.r)}<p><button class="btn" id="nx">${cola&&cola.length?"Siguiente caso fallado":"Siguiente caso"}</button> <button class="btn s" id="rp">Repetir este caso</button></p>`;
+  $("#nx").onclick=()=>{ci=cola&&cola.length?cola.shift():(ci+1)%C.length;if(cola&&!cola.length)cola=null;go()};$("#rp").onclick=go;return}
+ if(!ord.length)ord=mix(p.o.length);
+ const prev=c.s.slice(0,si+1).filter(x=>x.d).map(x=>`<div class="dato">${x.d}</div>`).join("");
+ $("#cv").innerHTML=`<small>Caso ${ci+1} de ${C.length} · paso ${si+1} de ${c.s.length} · ${c.t}</small><p><b>${c.v}</b></p>${prev}<p><b>${p.q}</b></p><div role="group" aria-label="Opciones">${ord.map((k,i)=>`<button class="op" data-k="${k}">${String.fromCharCode(65+i)}. ${p.o[k]}</button>`).join("")}</div>
+ ${ex?"":`<p><button class="btn s" id="ht" ${ans?"disabled":""}>Ver pista</button> <span id="hs"></span></p>`}<div id="fb" aria-live="polite"></div>`;
+ document.querySelectorAll(".op").forEach(b=>b.onclick=()=>pick(+b.dataset.k));
+ if(!ex)$("#ht").onclick=()=>{$("#hs").innerHTML="<small>Pista: "+p.h+"</small>"}}
+function pick(k){if(ans)return;ans=true;const c=C[ci],p=c.s[si],ok=k===0;
+ document.querySelectorAll(".op").forEach(b=>{b.disabled=true;const v=+b.dataset.k;if(v===0)b.classList.add("ok");else if(v===k)b.classList.add("no");if(v===0)b.insertAdjacentText("beforeend"," ✔");else if(v===k)b.insertAdjacentText("beforeend"," ✖")});
+ if(ok)pts++;else fail=1;const T=S.t[c.t]=S.t[c.t]||[0,0];T[1]++;if(ok)T[0]++;
+ if(!ok&&!S.f.includes(ci))S.f.push(ci);if(ok&&si===c.s.length-1&&!fail)S.f=S.f.filter(x=>x!==ci);sv();
+ $("#fb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><span class="i">${ok?"✔ Correcto.":"✖ Incorrecto."}</span> ${p.e}<br><small>Fuente: ${p.f}</small></div><button class="btn" id="sg">Continuar</button>`;
+ $("#sg").onclick=()=>{si++;ans=false;ord=[];show();prog()};$("#sg").focus()}
+function go(){si=0;pts=0;fail=0;ord=[];ans=false;$("#cs").value=ci;show()}
+function prog(){const tt=Object.entries(S.t),a=tt.reduce((x,[,v])=>x+v[0],0),n=tt.reduce((x,[,v])=>x+v[1],0);
+ $("#pg").innerHTML=`<p><b>Aciertos globales: ${n?Math.round(a/n*100):0}%</b> (${a} de ${n} respuestas) · Casos por repasar: ${S.f.length}</p>`+[...new Set(C.map(c=>c.t))].map(t=>{const v=S.t[t]||[0,0],p=v[1]?Math.round(v[0]/v[1]*100):0;return `<div class="row"><span>${t}</span><div class="pb" role="img" aria-label="${t}: ${p}%"><i style="width:${p}%"></i></div><span>${v[1]?p+"%":"—"}</span></div>`}).join("")}
+$("#cs").onchange=()=>{ci=+$("#cs").value;cola=null;go()};$("#md").onchange=go;
+$("#rf").onclick=()=>{if(!S.f.length){$("#cv").innerHTML="<p>No tienes casos por repasar. Elige un caso para practicar.</p>";return}cola=[...S.f];ci=cola.shift();go()};
+$("#rs").onclick=function(){sure(this,()=>{S={t:{},f:[],h:0};sv();prog()})};
+$("#ex").onclick=()=>{const L=["Resumen de práctica VIH · "+new Date().toLocaleDateString("es-MX"),"(Casos simulados; sin datos de pacientes)",""];
+ [...new Set(C.map(c=>c.t))].forEach(t=>{const v=S.t[t]||[0,0];L.push(t+": "+v[0]+" de "+v[1]+" correctas")});L.push("","Casos por repasar: "+(S.f.length?S.f.map(i=>(i+1)+". "+C[i].n).join("; "):"ninguno"));
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([L.join("\n")],{type:"text/plain"}));a.download="resumen-practica-vih.txt";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)};
+go();prog();
+
+})();</script>
+<script>(()=>{"use strict";const ND={A:["1. Ag/Ac 4.ª gen",240,8,160],NR:["No reactivo",30,78,170],R:["Reactivo (preliminar)",240,78,160],B:["2. Diferenciador Ac",240,148,160],POS:["Positivo: TAR rápida",30,218,190],NI:["No reactivo / indeterminado",400,218,220],C:["3. ARN-NAAT",400,282,220],DET:["ARN detectado: agudo",330,350,170],ND:["No detectado",520,350,110]};
+const LN=[[320,40,115,78],[320,40,320,78],[320,110,320,148],[320,180,125,218],[320,180,510,218],[510,250,510,282],[510,314,415,350],[510,314,575,350],[400,24,630,24,1],[630,24,630,298,1],[630,298,620,298,1]];
+// Explicación de cada recuadro [NYSDOH-2026 Fig.2 p.11 y páginas indicadas]
+const INF={A:"Paso 1 · Inmunoensayo combinado Ag/Ac VIH-1/2 de laboratorio (4.ª generación): detecta anticuerpos IgG/IgM y antígeno p24. Con sospecha de infección aguda, solicitar ARN-NAAT al mismo tiempo, sin esperar el Ag/Ac (A2). [NYSDOH p.9 y p.12]",
+NR:"No reactivo: sin Ag p24 ni anticuerpos detectados. No descarta infección si la prueba se hizo antes del fin de su ventana (Ag/Ac de laboratorio: 18-45 días). Con exposición reciente o síntomas: ARN-NAAT. Con riesgo: PrEP/PEP y reducción de riesgos (A3). [NYSDOH Tabla 2 p.8; p.3]",
+R:"Reactivo: resultado preliminar, porque todo tamizaje puede dar falsos positivos (A1). Continuar con el paso 2. Una prueba rápida o autoprueba reactiva también se confirma con este algoritmo. [NYSDOH p.9]",
+B:"Paso 2 · Ensayo diferenciador de anticuerpos VIH-1/VIH-2 (A1). Muchos laboratorios lo hacen en reflejo; confirme la política del suyo. Si la norma local exige Western blot, regístrelo como paso adicional: nunca descarta un 4.ª generación reactivo. [NYSDOH p.9 y p.12; MEDINA-2021]",
+POS:"Anticuerpos VIH-1 o VIH-2 detectados: infección por ese tipo. Si no se tipifica (ambos positivos): positivo presuntivo; repetir el algoritmo en 2-4 semanas o pedir ARN para definir el tipo. En todos los casos, TAR rápida y consejería para prevenir la transmisión (A1). [NYSDOH p.9 y p.15]",
+NI:"Diferenciador no reactivo o indeterminado: continuar con el paso 3, porque algunas infecciones agudas por VIH-1 dan este patrón. [NYSDOH p.15]",
+C:"Paso 3 · ARN-NAAT VIH-1 o VIH-1/2; preferir ensayos con indicación diagnóstica sobre los cuantitativos (A*). Si el laboratorio no lo hace en reflejo, solicitarlo de inmediato. Con PrEP/PEP o TAR muy temprano puede dar falso negativo. [NYSDOH p.9, p.15 y p.16]",
+DET:"ARN detectado: infección aguda por VIH-1 (o VIH-2/coinfección si el ensayo diferencia). Informar, recomendar TAR y consejería (A1). En embarazo, no esperar confirmación serológica para iniciar TAR (A2). [NYSDOH Fig.2 p.11; p.10]",
+ND:"ARN no detectado: generalmente falso positivo del tamizaje. Excepciones: con PrEP/PEP o TAR muy temprano, valorar la historia de exposición y repetir con muestra nueva; si el diferenciador sigue indeterminado, considerar ARN de VIH-2 o repetir el algoritmo en 2-4 semanas. [NYSDOH p.15 y Fig.2 notas g y h]"};
+function mount(id){const el=document.getElementById(id);let sel="",on=[];
+ const paint=()=>{el.innerHTML=`<svg viewBox="0 0 640 390" role="group" aria-label="Diagrama interactivo del algoritmo diagnóstico"><text x="515" y="17" style="font-size:11px">ARN-NAAT simultáneo si hay sospecha aguda</text>${LN.map(l=>`<line x1="${l[0]}" y1="${l[1]}" x2="${l[2]}" y2="${l[3]}"${l[4]?' stroke-dasharray="5 4"':""}/>`).join("")}${Object.entries(ND).map(([k,[t,x,y,w]])=>`<g class="nd${on.includes(k)?" on":""}${k===sel?" sel":""}" tabindex="0" role="button" data-k="${k}" aria-pressed="${k===sel}" aria-label="${t}${on.includes(k)?" (en la ruta actual)":""}"><rect x="${x}" y="${y}" width="${w}" height="32" rx="8"/><text x="${x+w/2}" y="${y+21}">${t}${on.includes(k)?" ✔":""}</text></g>`).join("")}</svg><div class="card" aria-live="polite">${sel?`<b>${ND[sel][0]}</b><br>${INF[sel]}`:"Seleccione un recuadro del diagrama para ver su explicación, la conducta y la fuente."}</div>`;
+  el.querySelectorAll(".nd").forEach(g=>{const f=()=>{sel=g.dataset.k;paint();el.querySelector(`[data-k="${sel}"]`).focus()};g.onclick=f;g.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();f()}}})};
+ el.set=r=>{on=r;paint()};paint();return el}
+// Diagrama del módulo 1: sigue los resultados del asistente
+const d1=mount("dg1");mount("dg2");
+const g=i=>document.getElementById("x-"+i).value;
+function ruta(){const p1=g("p1"),p2=g("p2"),p3=g("p3"),r=[];if(!p1)return r;r.push("A",p1==="nr"?"NR":"R");const nt=g("nat");if(p1==="nr"&&nt){r.push("C");if(nt==="alto")r.push("DET");if(nt==="nd")r.push("ND")}
+ if(p1==="r"){r.push("B");if(["v1","v2","amb"].includes(p2))r.push("POS");if(p2==="nr"||p2==="ind"){r.push("NI","C");if(p3.startsWith("det"))r.push("DET");if(p3.startsWith("nd"))r.push("ND")}}return r}
+["p1","p2","p3","nat"].forEach(i=>document.getElementById("x-"+i).addEventListener("change",()=>d1.set(ruta())));
+// Apartados (pestañas)
+const T=document.getElementById("v-tool"),Pv=document.getElementById("v-prac"),tb=[...document.querySelectorAll("[data-v]")];
+function view(v){T.hidden=v!=="tool";Pv.hidden=v!=="prac";tb.forEach(b=>b.setAttribute("aria-selected",b.dataset.v===v))}
+const PR=["#practica","#diagrama","#progreso"];
+tb.forEach(b=>b.onclick=()=>{view(b.dataset.v);try{history.replaceState(null,"",b.dataset.v==="prac"?"#practica":"#m1")}catch(e){}scrollTo(0,0)});
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(a)view(PR.includes(a.getAttribute("href"))?"prac":"tool")});
+const fh=()=>{view(PR.includes(location.hash)?"prac":"tool");const e=location.hash.length>1&&document.getElementById(location.hash.slice(1));if(e)e.scrollIntoView()};
+addEventListener("hashchange",fh);fh();
+})();</script></body></html>
